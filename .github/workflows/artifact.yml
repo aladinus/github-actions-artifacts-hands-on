@@ -1,34 +1,72 @@
+#NOT PASSING THE CHECK IN THE LAB
+#/ Was the repository github-actions-artifacts-hands-on forked successfully?
+#/ Does the download job run on ubuntu-latest?
+#X Does the Download text file step place artifacts in the ./artifacts directory?
+#X Does the Display content of the text file step use the correct command?
+
+
+# name: Workflow Demo
+
+# on: [push]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
+
+#     - name: Create a text file
+#       run: echo "Hello, world!" > hello.txt
+
+#     - name: Archive text file
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: hello-artifact
+#         path: hello.txt
+
+#   download: 
+#     needs: build
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Download
+#       uses: actions/download-artifact@v4
+#       with:
+#         name: hello-artifact
+#         path: ./artifacts
+        
+#     - name: Display
+#       run: cat ./artifacts/hello.txt
+
+
+
+#USING LAB PROVIDED SOLUTION
 name: Workflow Demo
-
-on: [push]
-
+'on':
+  - push
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Create a text file
-      run: echo "Hello, world!" > hello.txt
-
-    - name: Archive text file
-      uses: actions/upload-artifact@v4
-      with:
-        name: hello-artifact
-        path: hello.txt
-
-  download: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Create a text file
+        run: 'echo "Hello, world!" > hello.txt'
+      - name: Archive text file
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-artifact
+          path: hello.txt
+  download: #added
     needs: build
     runs-on: ubuntu-latest
-
     steps:
-    - name: Download
-      uses: actions/download-artifact@v4
-      with:
-        name: hello-artifact
-        path: ./artifacts
-        
-    - name: Display
-      run: cat ./artifacts/hello.txt
+      - name: Download text file
+        uses: actions/download-artifact@v4
+        with:
+          name: hello-artifact
+          path: ./artifacts
+      - name: Display content of the text file
+        run: cat ./artifacts/hello.txt
